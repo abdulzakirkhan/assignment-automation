@@ -1,0 +1,18 @@
+.env
+myenv
+
+complete_assignment_frontend.html
+##
+env
+__pycache__
+
+# Logs
+*.log
+failed_processing_log.csv
+
+# API Keys and Credentials
+service_account.json
+
+# IDE
+.vscode/
+.idea/

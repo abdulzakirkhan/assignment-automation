@@ -1,0 +1,199 @@
+{
+  "assignment_title": "Ethics, Sustainability, and Responsible Business Practices",
+  "assignment_type": "report",
+  "total_word_count": "3500",
+  "assignment_sections": [
+    {
+      "section_id": 1,
+      "section_title": "Introduction",
+      "word_count": "350",
+      "section_type": "introduction",
+      "subsections": [
+        {
+          "subsection_id": "1.1",
+          "subsection_title": "Purpose",
+          "content_requirements": "Define key terms and set out the approach to the assignment.",
+          "word_count": "350",
+          "theories_models": [
+            "Triple Bottom Line (TBL)"
+          ],
+          "readings": [
+            "Crane & Matten (2016)"
+          ],
+          "learning_outcomes": [
+            "Outcome 1"
+          ],
+          "rubric_criteria": [
+            "Argument Quality",
+            "Structure and Flow"
+          ],
+          "specific_instructions": []
+        }
+      ]
+    },
+    {
+      "section_id": 2,
+      "section_title": "Overview",
+      "word_count": "700",
+      "section_type": "main",
+      "subsections": [
+        {
+          "subsection_id": "2.1",
+          "subsection_title": "Purpose",
+          "content_requirements": "Critically explore issues and review literature on how ethical questions are manifested in the modern workplace.",
+          "word_count": "700",
+          "theories_models": [
+            "Carroll’s CSR Pyramid",
+            "Stakeholder Theory"
+          ],
+          "readings": [
+            "Carroll (1991)",
+            "Freeman (1984)"
+          ],
+          "learning_outcomes": [
+            "Outcome 1",
+            "Outcome 4"
+          ],
+          "rubric_criteria": [
+            "Critical Analysis",
+            "Use of Evidence"
+          ],
+          "specific_instructions": []
+        }
+      ]
+    },
+    {
+      "section_id": 3,
+      "section_title": "Practice",
+      "word_count": "2100",
+      "section_type": "main",
+      "subsections": [
+        {
+          "subsection_id": "3.1",
+          "subsection_title": "Case Study 1",
+          "content_requirements": "Describe the case and its ethical dimensions. Analyze using utilitarianism and deontological ethics. Suggest lessons for practitioners.",
+          "word_count": "700",
+          "theories_models": [
+            "Utilitarianism",
+            "Deontological Ethics"
+          ],
+          "readings": [
+            "Crane & Matten (2016)"
+          ],
+          "learning_outcomes": [
+            "Outcome 2",
+            "Outcome 4",
+            "Outcome 5"
+          ],
+          "rubric_criteria": [
+            "Critical Analysis",
+            "Use of Evidence",
+            "Argument Quality"
+          ],
+          "specific_instructions": []
+        },
+        {
+          "subsection_id": "3.2",
+          "subsection_title": "Case Study 2",
+          "content_requirements": "Describe the case and its ethical dimensions. Analyze using virtue ethics and CSR. Suggest lessons for practitioners.",
+          "word_count": "700",
+          "theories_models": [
+            "Virtue Ethics",
+            "CSR"
+          ],
+          "readings": [
+            "Banerjee (2008)"
+          ],
+          "learning_outcomes": [
+            "Outcome 2",
+            "Outcome 4",
+            "Outcome 5"
+          ],
+          "rubric_criteria": [
+            "Critical Analysis",
+            "Use of Evidence",
+            "Argument Quality"
+          ],
+          "specific_instructions": []
+        },
+        {
+          "subsection_id": "3.3",
+          "subsection_title": "Case Study 3",
+          "content_requirements": "Describe the case and its ethical dimensions. Analyze using stakeholder theory and globalization impacts. Suggest lessons for practitioners.",
+          "word_count": "700",
+          "theories_models": [
+            "Stakeholder Theory",
+            "Globalization Impacts"
+          ],
+          "readings": [
+            "Crane & Matten (2016)"
+          ],
+          "learning_outcomes": [
+            "Outcome 2",
+            "Outcome 4",
+            "Outcome 5"
+          ],
+          "rubric_criteria": [
+            "Critical Analysis",
+            "Use of Evidence",
+            "Argument Quality"
+          ],
+          "specific_instructions": []
+        }
+      ]
+    },
+    {
+      "section_id": 4,
+      "section_title": "Conclusion",
+      "word_count": "350",
+      "section_type": "conclusion",
+      "subsections": [
+        {
+          "subsection_id": "4.1",
+          "subsection_title": "Purpose",
+          "content_requirements": "Summarize findings and suggest possible future directions for firms in sustainable and responsible business.",
+          "word_count": "350",
+          "theories_models": [
+            "Responsible Leadership",
+            "Future of Business Post Pandemic"
+          ],
+          "readings": [
+            "Deloitte (2020)",
+            "Accenture World"
+          ],
+          "learning_outcomes": [
+            "Outcome 3"
+          ],
+          "rubric_criteria": [
+            "Argument Quality",
+            "Structure and Flow"
+          ],
+          "specific_instructions": []
+        }
+      ]
+    },
+    {
+      "section_id": 5,
+      "section_title": "References",
+      "word_count": "",
+      "section_type": "references",
+      "subsections": [
+        {
+          "subsection_id": "5.1",
+          "subsection_title": "Purpose",
+          "content_requirements": "Provide a comprehensive list of all sources cited in the report.",
+          "word_count": "",
+          "theories_models": [],
+          "readings": [],
+          "learning_outcomes": [],
+          "rubric_criteria": [
+            "Referencing"
+          ],
+          "specific_instructions": [
+            "Ensure all references are formatted according to the required style guide (e.g., APA, Harvard)."
+          ]
+        }
+      ]
+    }
+  ]
+}

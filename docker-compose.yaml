@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  app:
+    image: egeeksglobal/writing_bot_app:${IMAGE_TAG}  # ✅ Use prebuilt image with tag
+    container_name: assignment_api
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8001:8001"
+    volumes:
+      - .:/app
+    networks:
+      - demo
+
+networks:
+  demo:
+    external: true
+

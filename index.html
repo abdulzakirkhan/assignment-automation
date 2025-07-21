@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Assignment Generator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #2563eb;
+            --secondary-blue: #3b82f6;
+            --light-blue: #dbeafe;
+            --extra-light-blue: #eff6ff;
+            --dark-blue: #1e40af;
+            --white: #ffffff;
+            --light-gray: #f8fafc;
+            --gray: #64748b;
+            --dark-gray: #334155;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--extra-light-blue) 0%, var(--white) 100%);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: var(--light-blue);
+            color: var(--primary-blue);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            cursor: pointer;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Page Sections */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .file-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 5px;
+}
+.file-badge {
+    background-color: #e6f7ff;
+    color: #007acc;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.file-badge i {
+    cursor: pointer;
+    color: red;
+}
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-blue);
+        }
+
+        .card-icon {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        /* File Upload */
+        .file-upload-area {
+            border: 3px dashed var(--primary-blue);
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            background: var(--extra-light-blue);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--dark-blue);
+            background: var(--light-blue);
+        }
+
+        .file-upload-area.dragover {
+            border-color: var(--success);
+            background: #ecfdf5;
+        }
+
+        .file-upload-icon {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-text {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .file-upload-hint {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .file-selected {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background: #d1fae5;
+            border: 1px solid var(--success);
+            border-radius: 0.5rem;
+            color: #065f46;
+            display: none;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Loading */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Status Messages */
+        .status-container {
+            margin-top: 1.5rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            display: none;
+        }
+
+        .status-success {
+            background: #d1fae5;
+            border: 2px solid var(--success);
+            color: #065f46;
+        }
+
+        .status-error {
+            background: #fee2e2;
+            border: 2px solid var(--error);
+            color: #991b1b;
+        }
+
+        .status-info {
+            background: var(--light-blue);
+            border: 2px solid var(--primary-blue);
+            color: var(--dark-blue);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-blue), var(--success));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        /* Info Cards */
+        .info-card {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .info-value {
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        /* Features List */
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 2rem;
+            color: var(--dark-gray);
+        }
+
+        .features-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            color: var(--white);
+            font-weight: 600;
+            z-index: 1001;
+            transform: translateX(600px);
+            transition: transform 0.3s ease;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: var(--success);
+        }
+
+        .toast.error {
+            background: var(--error);
+        }
+
+        .toast.info {
+            background: var(--primary-blue);
+        }
+
+        /* Dashboard */
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        /* Download Section */
+        .download-section {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border-radius: 1rem;
+            border: 2px solid var(--success);
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .download-icon {
+            font-size: 4rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+
+        .download-text {
+            font-size: 1.3rem;
+            color: #065f46;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        /* Assignment History */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .history-table th {
+            background: var(--light-blue);
+            color: var(--dark-blue);
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-failed {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Default Light Theme */
+        body.light-theme {
+            background-color: #ffffff !important;
+            color: #333333 !important;
+        }
+
+        /* Dark Theme (reserved for later) */
+        body.dark-theme {
+            background-color: #1e1e1e !important;
+            color: #f0f0f0 !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: var(--shadow);
+            }
+
+            .nav-menu.show {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-title {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Animations */
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40%, 43% {
+                transform: translateY(-30px);
+            }
+            70% {
+                transform: translateY(-15px);
+            }
+            90% {
+                transform: translateY(-4px);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body class="light-theme" >
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                AssignmentGenius
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-home"></i> Dashboard
+                </li>
+                <li class="nav-item" data-page="create">
+                    <i class="fas fa-plus-circle"></i> Create Assignment
+                </li>
+                <li class="nav-item" data-page="generate">
+                    <i class="fas fa-magic"></i> Generate
+                </li>
+                <li class="nav-item" data-page="history">
+                    <i class="fas fa-history"></i> History
+                </li>
+                <li class="nav-item" data-page="help">
+                    <i class="fas fa-question-circle"></i> Help
+                </li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page active">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">
+                    <i class="fas fa-robot animate-bounce"></i>
+                    Welcome to AssignmentGenius
+                </h1>
+                <p class="dashboard-subtitle">
+                    Professional AI-Powered Academic Writing Assistant
+                </p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-file-alt stat-icon"></i>
+                    <div class="stat-number" id="totalAssignments">0</div>
+                    <div class="stat-label">Total Assignments</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-check-circle stat-icon"></i>
+                    <div class="stat-number" id="completedAssignments">0</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-download stat-icon"></i>
+                    <div class="stat-number" id="downloadsCount">0</div>
+                    <div class="stat-label">Downloads</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock stat-icon"></i>
+                    <div class="stat-number" id="processingTime">~5min</div>
+                    <div class="stat-label">Avg. Processing</div>
+                </div>
+            </div>
+
+            <div class="grid grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="card-title">Quick Start</div>
+                    </div>
+                    <ul class="features-list">
+                        <li>Upload your assignment brief</li>
+                        <li>Add module materials (optional)</li>
+                        <li>Generate professional outline</li>
+                        <li>Create complete assignment</li>
+                        <li>Download formatted DOCX</li>
+                    </ul>
+                    <button class="btn btn-primary btn-full" onclick="showPage('create')">
+                        <i class="fas fa-play"></i> Start New Assignment
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="card-title">Advanced Features</div>
+                    </div>
+                    <ul class="features-list">
+                        <li>Exact word count compliance</li>
+                        <li>Professional academic formatting</li>
+                        <li>Auto-generated citations</li>
+                        <li>University-style layout</li>
+                        <li>Multiple file format support</li>
+                    </ul>
+                    <button class="btn btn-secondary btn-full" onclick="showPage('help')">
+                        <i class="fas fa-info-circle"></i> Learn More
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Assignment Page -->
+        <div id="create" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-file-upload"></i>
+                    </div>
+                    <div class="card-title">Create New Assignment</div>
+                </div>
+
+                <form id="extractForm" enctype="multipart/form-data">
+                    <div class="grid grid-2">
+                        <!-- Assignment Brief Upload -->
+                      
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-file-text"></i> Assignment Brief (Required)
+                            </label>
+                            <div class="file-upload-area" onclick="document.getElementById('assignmentFile').click()">
+                                <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+                                <div class="file-upload-text">Click to upload or drag & drop</div>
+                                <div class="file-upload-hint">PDF, DOC, DOCX, PPT, PPTX, Images, ZIP, RAR</div>
+                            </div>
+
+                            <!-- File input -->
+                            <input type="file" id="assignmentFile" name="file" class="file-input" 
+                                accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.zip,.rar,.tar,.tar.gz" multiple>
+
+                            <!-- File list container -->
+                            <div id="assignmentFileSelected" class="file-selected" style="display:none;">
+                                <i class="fas fa-check-circle"></i>
+                                <div id="assignmentFileList" class="file-list"></div> <!-- Badges will appear here -->
+                            </div>
+                        </div>
+
+                        <!-- Helping Material Upload -->
+                         <!-- Module Materials Upload -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-folder-open"></i> Module Materials (Optional)
+                            </label>
+                            <div class="file-upload-area" onclick="document.getElementById('helpingMaterial').click()">
+                                <i class="fas fa-archive file-upload-icon"></i>
+                                <div class="file-upload-text">Upload ZIP file</div>
+                                <div class="file-upload-hint">Lecture notes, readings, handouts</div>
+                            </div>
+                            <input type="file" id="helpingMaterial" name="helping_material" class="file-input" 
+                                accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.zip,.rar,.tar,.tar.gz" multiple>
+                            <div id="helpingMaterialSelected" class="file-selected" style="display:none;">
+                                <i class="fas fa-check-circle"></i>
+                                <div id="helpingMaterialList" class="file-list"></div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-folder-open"></i> Module Materials (Optional)
+                            </label>
+                            <div class="file-upload-area" onclick="document.getElementById('helpingMaterial').click()">
+                                <i class="fas fa-archive file-upload-icon"></i>
+                                <div class="file-upload-text">Upload ZIP file</div>
+                                <div class="file-upload-hint">Lecture notes, readings, handouts</div>
+                            </div>
+                            <input type="file" id="helpingMaterial" name="helping_material" class="file-input" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.zip,.rar,.tar,.tar.gz" multiple>
+                            <div id="helpingMaterialSelected" class="file-selected">
+                                <i class="fas fa-check-circle"></i>
+                                <span id="helpingMaterialName"></span>
+                            </div>
+                        </div> -->
+                        
+                    </div>
+
+                    <!-- Additional Information -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-info-circle"></i> Additional Information (Optional)
+                        </label>
+                        <textarea 
+                            name="additional_information" 
+                            class="form-input textarea" 
+                            placeholder="Provide any additional context, specific requirements, instructions, or guidelines that will help generate a better assignment..."
+                        ></textarea>
+                    </div>
+
+                    <!-- Features Info -->
+                    <div class="info-card">
+                        <h4 style="color: var(--primary-blue); margin-bottom: 1rem;">
+                            <i class="fas fa-magic"></i> What happens next?
+                        </h4>
+                        <ul class="features-list">
+                            <li>AI analyzes your assignment requirements</li>
+                            <li>Extracts structure and key details</li>
+                            <li>Generates comprehensive outline</li>
+                            <li>Saves to database for generation</li>
+                            <li>Provides assignment ID for tracking</li>
+                        </ul>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary btn-full" id="extractBtn">
+                        <i class="fas fa-magic"></i>
+                        Generate Assignment Outline
+                    </button>
+                </form>
+
+                <!-- Status Container -->
+                <div id="extractStatus" class="status-container">
+                    <div id="extractMessage"></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="extractProgress"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generate Assignment Page -->
+        <div id="generate" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="card-title">Generate Professional Assignment</div>
+                </div>
+
+                <!-- Assignment Info Display -->
+                <div class="info-card" id="assignmentInfoCard" style="display: none;">
+                    <h4 style="color: var(--primary-blue); margin-bottom: 1rem;">
+                        <i class="fas fa-info-circle"></i> Assignment Details
+                    </h4>
+                    <div class="info-item">
+                        <span class="info-label">Assignment ID:</span>
+                        <span class="info-value" id="displayAssignmentId">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Type:</span>
+                        <span class="info-value" id="displayAssignmentType">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Word Count:</span>
+                        <span class="info-value" id="displayWordCount">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Topic:</span>
+                        <span class="info-value" id="displayTopic">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">University:</span>
+                        <span class="info-value" id="displayUniversity">-</span>
+                    </div>
+                </div>
+
+                <!-- Manual Assignment ID Input -->
+                <div class="form-group" id="manualIdInput">
+                    <label class="form-label">
+                        <i class="fas fa-hashtag"></i> Assignment ID
+                    </label>
+                    <input type="number" id="manualAssignmentId" class="form-input" 
+                           placeholder="Enter assignment ID to generate..." min="1">
+                    <button type="button" class="btn btn-secondary" onclick="loadAssignmentInfo()" style="margin-top: 1rem;">
+                        <i class="fas fa-search"></i> Load Assignment Info
+                    </button>
+                </div>
+
+                <!-- Advanced Features Info -->
+                <div class="info-card">
+                    <h4 style="color: var(--success); margin-bottom: 1rem;">
+                        <i class="fas fa-rocket"></i> Advanced Generation Features
+                    </h4>
+                    <div class="grid grid-2">
+                        <ul class="features-list">
+                            <li>Exact word count compliance</li>
+                            <li>Professional academic formatting</li>
+                            <li>Auto-generated citations</li>
+                            <li>University-style title page</li>
+                        </ul>
+                        <ul class="features-list">
+                            <li>Table of contents</li>
+                            <li>No section conclusions</li>
+                            <li>Quality control system</li>
+                            <li>Instant DOCX download</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <button class="btn btn-success btn-full" id="generateBtn" onclick="generateAssignment()">
+                    <i class="fas fa-play"></i>
+                    Generate Professional Assignment
+                </button>
+
+                <!-- Generation Status -->
+                <div id="generateStatus" class="status-container">
+                    <div id="generateMessage"></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="generateProgress"></div>
+                    </div>
+                </div>
+
+                <!-- Download Section -->
+                <div class="download-section" id="downloadSection">
+                    <i class="fas fa-download download-icon"></i>
+                    <div class="download-text">Assignment Generated Successfully!</div>
+                    <div style="margin-bottom: 1rem; color: #065f46;">
+                        <div><strong>📄 Sections Generated:</strong> <span id="sectionsGenerated">-</span></div>
+                        <div><strong>📝 Total Words:</strong> <span id="totalWords">-</span></div>
+                        <div><strong>📖 Citations Found:</strong> <span id="citationsFound">-</span></div>
+                    </div>
+                    <button class="btn btn-success" id="downloadBtn" onclick="downloadAssignment()">
+                        <i class="fas fa-file-word"></i>
+                        Download DOCX File
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Page -->
+        <div id="history" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="card-title">Assignment History</div>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary" onclick="loadAssignmentHistory()">
+                        <i class="fas fa-refresh"></i>
+                        Refresh History
+                    </button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="history-table" id="historyTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Type</th>
+                                <th>Topic</th>
+                                <th>Word Count</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody">
+                            <!-- <tr>
+                                <td colspan="7" style="text-align: center; padding: 3rem; color: var(--gray);">
+                                    <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+                                    No assignments found. Create your first assignment!
+                                </td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Page -->
+        <div id="help" class="page">
+            <div class="grid grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <div class="card-title">How It Works</div>
+                    </div>
+                    <div style="space-y: 1.5rem;">
+                        <div style="margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--primary-blue); margin-bottom: 0.5rem;">Step 1: Upload Brief</h4>
+                            <p>Upload your assignment brief in any supported format (PDF, DOC, DOCX, PPT, etc.). You can also include module materials as a ZIP file.</p>
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--primary-blue); margin-bottom: 0.5rem;">Step 2: AI Analysis</h4>
+                            <p>Our AI analyzes your brief, extracts requirements, word counts, deadlines, and generates a comprehensive outline.</p>
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--primary-blue); margin-bottom: 0.5rem;">Step 3: Generate Assignment</h4>
+                            <p>Click generate to create a professional assignment with proper formatting, citations, and academic structure.</p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--primary-blue); margin-bottom: 0.5rem;">Step 4: Download</h4>
+                            <p>Download your completed assignment as a formatted DOCX file ready for submission.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="card-title">Supported Formats</div>
+                    </div>
+                    <div style="space-y: 1rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <h5 style="color: var(--dark-blue);">Document Formats</h5>
+                            <ul class="features-list">
+                                <li>PDF (.pdf)</li>
+                                <li>Microsoft Word (.doc, .docx)</li>
+                                <li>PowerPoint (.ppt, .pptx)</li>
+                            </ul>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <h5 style="color: var(--dark-blue);">Image Formats</h5>
+                            <ul class="features-list">
+                                <li>JPEG (.jpg, .jpeg)</li>
+                                <li>PNG (.png)</li>
+                                <li>JFIF (.jfif)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 style="color: var(--dark-blue);">Archive Formats</h5>
+                            <ul class="features-list">
+                                <li>ZIP (.zip)</li>
+                                <li>RAR (.rar)</li>
+                                <li>TAR (.tar, .tar.gz)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="card-title">Key Features</div>
+                    </div>
+                    <ul class="features-list">
+                        <li>AI-powered content generation</li>
+                        <li>Strict word count compliance</li>
+                        <li>Professional academic formatting</li>
+                        <li>Automatic citation generation</li>
+                        <li>University-style title pages</li>
+                        <li>Table of contents generation</li>
+                        <li>Multiple file format support</li>
+                        <li>Module material integration</li>
+                        <li>Quality control systems</li>
+                        <li>Instant DOCX download</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="card-title">System Settings</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Backend API URL</label>
+                        <input type="url" id="apiUrlInput" class="form-input" value="http://localhost:8000" placeholder="http://localhost:8000">
+                        <button class="btn btn-secondary" onclick="updateApiUrl()" style="margin-top: 0.5rem;">
+                            <i class="fas fa-save"></i> Update URL
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Theme</label>
+                        <select class="form-input" onchange="toggleTheme(this.value)">
+                            <option value="light">Light Theme</option>
+                            <option value="dark">Dark Theme (Coming Soon)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // Global Configuration
+        let API_BASE_URL = 'http://localhost:8000';
+        let currentAssignmentId = null;
+        let currentDocxFile = null;
+        // File Handling
+       let assignmentFiles = [];
+        let helpingMaterialFiles = [];
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            setupEventListeners();
+            setupDragAndDrop();
+            loadDashboardStats();
+            
+            // Load saved API URL
+            const savedApiUrl = localStorage.getItem('apiUrl');
+            if (savedApiUrl) {
+                API_BASE_URL = savedApiUrl;
+                document.getElementById('apiUrlInput').value = savedApiUrl;
+            }
+        }
+
+        function setupEventListeners() {
+            // Navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const pageId = this.getAttribute('data-page');
+                    showPage(pageId);
+                });
+            });
+
+            // Mobile menu
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.getElementById('navMenu').classList.toggle('show');
+            });
+
+            // File inputs
+            // Event listeners for both inputs
+            document.getElementById('assignmentFile').addEventListener('change', function(e) {
+                handleFileSelect(e, 'assignmentFileSelected', 'assignmentFileList', assignmentFiles);
+            });
+
+            document.getElementById('helpingMaterial').addEventListener('change', function(e) {
+                handleFileSelect(e, 'helpingMaterialSelected', 'helpingMaterialList', helpingMaterialFiles);
+            });
+
+            // Form submission
+            document.getElementById('extractForm').addEventListener('submit', handleExtractSubmission);
+        }
+
+        function setupDragAndDrop() {
+            const uploadAreas = document.querySelectorAll('.file-upload-area');
+            
+            uploadAreas.forEach(area => {
+                area.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('dragover');
+                });
+
+                area.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                });
+
+                area.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                    
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        const input = this.parentNode.querySelector('input[type="file"]');
+                        input.files = files;
+                        input.dispatchEvent(new Event('change'));
+                    }
+                });
+            });
+        }
+
+        // Page Navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+
+            // Close mobile menu
+            document.getElementById('navMenu').classList.remove('show');
+
+            // Load page-specific data
+            if (pageId === 'dashboard') {
+                loadDashboardStats();
+            } else if (pageId === 'history') {
+                loadAssignmentHistory();
+            }
+        }
+
+        
+
+        // updated
+        function handleFileSelect(event, selectedId, listContainerId, fileArray) {
+            const newFiles = Array.from(event.target.files);
+
+            // Merge new files, avoid duplicates
+            newFiles.forEach(file => {
+                if (!fileArray.some(f => f.name === file.name && f.size === file.size)) {
+                    fileArray.push(file);
+                }
+            });
+
+            const fileListContainer = document.getElementById(listContainerId);
+            const parentContainer = document.getElementById(selectedId);
+
+            // Clear old badges
+            fileListContainer.innerHTML = '';
+
+            // Create badges
+            fileArray.forEach((file, index) => {
+                const badge = document.createElement('div');
+                badge.classList.add('file-badge');
+                badge.innerHTML = `
+                    ${file.name} <i class="fas fa-times" title="Remove"></i>
+                `;
+
+                // Remove file functionality
+                badge.querySelector('i').addEventListener('click', () => {
+                    console.log("fileid",file.name)
+                    fileArray.splice(file, 1);
+                    badge.remove();
+                    if (fileArray.length === 0) {
+                        parentContainer.style.display = 'none';
+                    }
+                });
+
+                fileListContainer.appendChild(badge);
+            });
+
+            // Show parent only if there are files
+            if (fileArray.length > 0) {
+                parentContainer.style.display = 'block';
+            } else {
+                parentContainer.style.display = 'none';
+            }
+
+            showToast(`${newFiles.length} ${newFiles.length > 1 ? "Files" : "File"} Selected`, 'success');
+        }
+        // old function
+        // function handleFileSelect(event, selectedId, nameId) {
+        //     const file = event.target.files[0];
+        //     if (file) {
+        //         document.getElementById(selectedId).style.display = 'block';
+        //         document.getElementById(nameId).textContent = file.name;
+        //         showToast(`File selected: ${file.name}`, 'success');
+        //     }
+        // }
+
+        // Extract Assignment (Step 1)
+        async function handleExtractSubmission(event) {
+            event.preventDefault();
+            
+            const formData = new FormData();
+            const assignmentFile = document.getElementById('assignmentFile').files[0];
+            const helpingMaterial = document.getElementById('helpingMaterial').files[0];
+            const additionalInfo = document.querySelector('textarea[name="additional_information"]').value;
+
+            // Validation
+            if (!assignmentFile) {
+                showToast('Please select an assignment brief file', 'error');
+                return;
+            }
+
+            // Append files and data
+            formData.append('file', assignmentFile);
+            if (helpingMaterial) {
+                formData.append('helping_material', helpingMaterial);
+            }
+            if (additionalInfo.trim()) {
+                formData.append('additional_information', additionalInfo);
+            }
+
+            // Show loading state
+            const extractBtn = document.getElementById('extractBtn');
+            const originalText = extractBtn.innerHTML;
+            extractBtn.innerHTML = '<span class="loading-spinner"></span>Processing...';
+            extractBtn.disabled = true;
+
+            showStatus('extractStatus', 'Uploading and analyzing files...', 'info');
+            updateProgress('extractProgress', 25);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/extract/`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                updateProgress('extractProgress', 75);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                updateProgress('extractProgress', 100);
+
+                if (result.status === 'complete') {
+                    currentAssignmentId = result.data.assignment_id;
+                    
+                    showStatus('extractStatus', 
+                        `✅ Outline generated successfully!<br>
+                        📝 Assignment ID: ${currentAssignmentId}<br>
+                        📋 Type: ${result.data.assignment_type || 'N/A'}<br>
+                        📊 Word Count: ${result.data.word_count || 'N/A'}`, 
+                        'success');
+                    
+                    showToast('Assignment outline generated successfully!', 'success');
+                    
+                    // Auto-navigate to generation page after 3 seconds
+                    setTimeout(() => {
+                        populateGenerationPage(result.data);
+                        showPage('generate');
+                    }, 3000);
+                    
+                } else {
+                    throw new Error('Unexpected response format');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                showStatus('extractStatus', `❌ Error: ${error.message}`, 'error');
+                showToast('Failed to generate outline. Please try again.', 'error');
+                updateProgress('extractProgress', 0);
+            } finally {
+                // Reset button
+                extractBtn.innerHTML = originalText;
+                extractBtn.disabled = false;
+            }
+        }
+
+        // Generate Assignment (Step 2)
+        function populateGenerationPage(data) {
+            currentAssignmentId = data.assignment_id;
+            
+            // Show assignment info
+            document.getElementById('assignmentInfoCard').style.display = 'block';
+            document.getElementById('manualIdInput').style.display = 'none';
+            
+            // Populate fields
+            document.getElementById('displayAssignmentId').textContent = data.assignment_id || '-';
+            document.getElementById('displayAssignmentType').textContent = data.assignment_type || '-';
+            document.getElementById('displayWordCount').textContent = data.word_count || '-';
+            document.getElementById('displayTopic').textContent = data.paper_topic || '-';
+            document.getElementById('displayUniversity').textContent = data.university_name || '-';
+        }
+
+        async function loadAssignmentInfo() {
+            const assignmentId = document.getElementById('manualAssignmentId').value;
+            
+            if (!assignmentId) {
+                showToast('Please enter an assignment ID', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/assignment/${assignmentId}`);
+                
+                if (!response.ok) {
+                    throw new Error(`Assignment not found`);
+                }
+
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    populateGenerationPage(result.data);
+                    showToast('Assignment info loaded successfully!', 'success');
+                } else {
+                    throw new Error('Failed to load assignment info');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function generateAssignment() {
+            if (!currentAssignmentId) {
+                showToast('No assignment ID available. Please load assignment info first.', 'error');
+                return;
+            }
+
+            const generateBtn = document.getElementById('generateBtn');
+            const originalText = generateBtn.innerHTML;
+            generateBtn.innerHTML = '<span class="loading-spinner"></span>Generating...';
+            generateBtn.disabled = true;
+
+            showStatus('generateStatus', 'Starting professional assignment generation...', 'info');
+            updateProgress('generateProgress', 10);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/generate-assignment-advanced/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        assignment_id: currentAssignmentId
+                    })
+                });
+
+                updateProgress('generateProgress', 50);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                updateProgress('generateProgress', 90);
+
+                if (result.status === 'completed') {
+                    currentDocxFile = result.docx_file;
+                    
+                    updateProgress('generateProgress', 100);
+                    showStatus('generateStatus', 
+                        `✅ Assignment generated successfully!<br>
+                        📄 Professional formatting applied<br>
+                        📝 Citations automatically generated<br>
+                        🎯 Ready for download`, 
+                        'success');
+                    
+                    // Update download section
+                    document.getElementById('sectionsGenerated').textContent = result.sections_generated || '-';
+                    document.getElementById('totalWords').textContent = result.estimated_words || '-';
+                    document.getElementById('citationsFound').textContent = result.citations_found || '-';
+                    
+                    showToast('Professional assignment generated successfully!', 'success');
+                    
+                    // Show download section
+                    document.getElementById('downloadSection').style.display = 'block';
+                    
+                    // Auto-download after 3 seconds
+                    setTimeout(() => {
+                        downloadAssignment();
+                    }, 3000);
+                    
+                } else {
+                    throw new Error(result.error || 'Generation failed');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                showStatus('generateStatus', `❌ Error: ${error.message}`, 'error');
+                showToast('Failed to generate assignment. Please try again.', 'error');
+                updateProgress('generateProgress', 0);
+            } finally {
+                generateBtn.innerHTML = originalText;
+                generateBtn.disabled = false;
+            }
+        }
+
+        // Download Assignment
+        async function downloadAssignment() {
+            if (!currentAssignmentId) {
+                showToast('No assignment available for download', 'error');
+                return;
+            }
+
+            try {
+                showToast('Starting download...', 'info');
+                
+                const response = await fetch(`${API_BASE_URL}/download-assignment/${currentAssignmentId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Download failed');
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `assignment_${currentAssignmentId}.docx`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+                
+                showToast('Download completed successfully!', 'success');
+                
+            } catch (error) {
+                console.error('Download error:', error);
+                showToast('Download failed. Please try again.', 'error');
+            }
+        }
+
+        // Dashboard Stats
+        async function loadDashboardStats() {
+            try {
+                // Mock data for now - replace with actual API calls
+                document.getElementById('totalAssignments').textContent = '12';
+                document.getElementById('completedAssignments').textContent = '10';
+                document.getElementById('downloadsCount').textContent = '8';
+                document.getElementById('processingTime').textContent = '~4min';
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // Assignment History
+        async function loadAssignmentHistory() {
+            const tableBody = document.getElementById('historyTableBody');
+            
+            try {
+                // Mock data for now - replace with actual API call
+                const mockHistory = [];
+                // [
+                //     {
+                //         id: 5,
+                //         type: 'Business Report',
+                //         topic: 'Strategic Management',
+                //         wordCount: 2500,
+                //         status: 'completed',
+                //         created: '2024-01-15'
+                //     },
+                //     {
+                //         id: 4,
+                //         type: 'Essay',
+                //         topic: 'Global Economics',
+                //         wordCount: 1800,
+                //         status: 'completed',
+                //         created: '2024-01-10'
+                //     },
+                //     {
+                //         id: 3,
+                //         type: 'Research Proposal',
+                //         topic: 'AI Ethics',
+                //         wordCount: 3000,
+                //         status: 'pending',
+                //         created: '2024-01-08'
+                //     }
+                // ];
+
+                if (mockHistory.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 3rem; color: var(--gray);">
+                                <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+                                No assignments found. Create your first assignment!
+                            </td>
+                        </tr>`;
+                    return;
+                }
+
+                tableBody.innerHTML = mockHistory.map(assignment => `
+                    <tr>
+                        <td>${assignment.id}</td>
+                        <td>${assignment.type}</td>
+                        <td>${assignment.topic}</td>
+                        <td>${assignment.wordCount}</td>
+                        <td>
+                            <span class="status-badge status-${assignment.status}">
+                                ${assignment.status.charAt(0).toUpperCase() + assignment.status.slice(1)}
+                            </span>
+                        </td>
+                        <td>${assignment.created}</td>
+                        <td>
+                            ${assignment.status === 'completed' ? 
+                                `<button class="btn btn-success" onclick="downloadAssignmentById(${assignment.id})" style="padding: 0.25rem 0.5rem; font-size: 0.875rem;">
+                                    <i class="fas fa-download"></i>
+                                </button>` : 
+                                `<button class="btn btn-primary" onclick="continueGeneration(${assignment.id})" style="padding: 0.25rem 0.5rem; font-size: 0.875rem;">
+                                    <i class="fas fa-play"></i>
+                                </button>`
+                            }
+                        </td>
+                    </tr>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error loading history:', error);
+                showToast('Failed to load assignment history', 'error');
+            }
+        }
+
+        async function downloadAssignmentById(id) {
+            currentAssignmentId = id;
+            await downloadAssignment();
+        }
+
+        async function continueGeneration(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/assignment/${id}`);
+                if (response.ok) {
+                    const result = await response.json();
+                    populateGenerationPage(result.data);
+                    showPage('generate');
+                } else {
+                    throw new Error('Failed to load assignment');
+                }
+            } catch (error) {
+                showToast('Failed to load assignment for generation', 'error');
+            }
+        }
+
+        // Utility Functions
+        function showStatus(containerId, message, type) {
+            const container = document.getElementById(containerId);
+            const messageEl = document.getElementById(containerId.replace('Status', 'Message'));
+            
+            container.className = `status-container status-${type}`;
+            messageEl.innerHTML = message;
+            container.style.display = 'block';
+        }
+
+        function updateProgress(progressId, percentage) {
+            const progressEl = document.getElementById(progressId);
+            if (progressEl) {
+                progressEl.style.width = percentage + '%';
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
+
+        function updateApiUrl() {
+            const newUrl = document.getElementById('apiUrlInput').value;
+            if (newUrl) {
+                API_BASE_URL = newUrl;
+                localStorage.setItem('apiUrl', newUrl);
+                showToast('API URL updated successfully!', 'success');
+            }
+        }
+
+
+        // toggle dark and ligth mode
+        function toggleTheme(theme) {
+            const body = document.body;
+            showToast(`Switched to ${theme}.`, "success");
+
+            if (theme === 'dark') {
+                // Apply dark theme
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+            } else {
+                // Apply light theme
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+            }
+        }
+
+
+
+        // Error Handling
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            showToast('An unexpected error occurred. Please try again.', 'error');
+        });
+
+        // Network Status
+        window.addEventListener('online', function() {
+            showToast('Connection restored', 'success');
+        });
+
+        window.addEventListener('offline', function() {
+            showToast('Connection lost. Please check your internet.', 'error');
+        });
+    </script>
+</body>
+</html>
