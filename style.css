@@ -49,6 +49,7 @@ body.light-theme {
     --border-color: #e2e8f0;
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --white-text: #334155;
 }
 
 /* Dark Theme (reserved for later) */
@@ -57,6 +58,8 @@ body.dark-theme {
   color: #f0f0f0 !important;
   --white: #13171E;
   --light-blue: #03070D;
+  --border-color: #64748b;
+  --white-text: #fff;
 }
 /* Switch Container */
 .switch {
@@ -301,6 +304,7 @@ input:checked + .slider:before {
   min-height: 100px;
   resize: vertical;
   font-family: inherit;
+  color: var(--white-text);
 }
 
 /* File Upload */
