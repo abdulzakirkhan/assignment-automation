@@ -60,6 +60,10 @@ body.dark-theme {
   --light-blue: #03070D;
   --border-color: #64748b;
   --white-text: #fff;
+  --dark-blue: #1e40af;
+  --primary-blue: #2563eb;
+  --secondary-blue: #3b82f6;
+  --success: #10b981;
 }
 /* Switch Container */
 .switch {
