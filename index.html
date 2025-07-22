@@ -11,7 +11,7 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#" class="logo">
+            <a href="" class="logo">
                 <i class="fas fa-graduation-cap"></i>
                 AssignmentGenius
             </a>
@@ -24,6 +24,9 @@
                 </li>
                 <li class="nav-item" data-page="generate">
                     <i class="fas fa-magic"></i> Generate
+                </li>
+                <li class="nav-item" data-page="title">
+                    <i class="fas fa-magic"></i> Title
                 </li>
                 <li class="nav-item" data-page="history">
                     <i class="fas fa-history"></i> History
@@ -314,6 +317,18 @@
             </div>
         </div>
 
+        <!-- Generate Assignment Page -->
+        <div id="title" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Title Page</div>
+                </div>
+                <div class="card-body">
+                    <h1>Hi this is Title page card body</h1>
+                </div>
+            </div>
+        </div>
+
         <!-- History Page -->
         <div id="history" class="page">
             <div class="card">
@@ -483,6 +498,7 @@
         // Initialize Application
         document.addEventListener('DOMContentLoaded', function() {
             initializeApp();
+            onLoadDom();
         });
 
         function initializeApp() {
@@ -496,6 +512,17 @@
                 API_BASE_URL = savedApiUrl;
                 document.getElementById('apiUrlInput').value = savedApiUrl;
             }
+        }
+
+        // Load saved theme on page load
+    
+        function onLoadDom () {
+            const savedTheme = localStorage.getItem('theme') || 'light'; // Default to light
+            toggleTheme(savedTheme); // Apply saved theme
+
+            // If you have a theme selector (dropdown), update it too:
+            const themeSelect = document.querySelector('select[onchange*="toggleTheme"]');
+            if (themeSelect) themeSelect.value = savedTheme;
         }
 
         function setupEventListeners() {
@@ -519,7 +546,7 @@
             });
 
             document.getElementById('helpingMaterial').addEventListener('change', function(e) {
-                handleFileSelect(e, 'helpingMaterialSelected', 'helpingMaterialList', helpingMaterialFiles);
+                handleFileSelect(e, 'helpingMaterialSelected', '', helpingMaterialFiles);
             });
 
             // Form submission
@@ -1042,19 +1069,24 @@
 
 
         // toggle dark and ligth mode
+        // Apply theme and save it to localStorage
         function toggleTheme(theme) {
             const body = document.body;
-            showToast(`Switched to ${theme}.`, "success");
 
+            // Save theme choice
+            localStorage.setItem('theme', theme);
+
+            // Apply classes
             if (theme === 'dark') {
-                // Apply dark theme
                 body.classList.remove('light-theme');
                 body.classList.add('dark-theme');
+                return;
             } else {
-                // Apply light theme
                 body.classList.remove('dark-theme');
                 body.classList.add('light-theme');
             }
+
+            showToast(`Switched to ${theme} mode.`, "success");
         }
 
 
