@@ -292,6 +292,7 @@ input:checked + .slider:before {
   font-size: 1rem;
   transition: all 0.3s ease;
   background: var(--white);
+  color: var(--white-text);
 }
 
 .form-input:focus {
