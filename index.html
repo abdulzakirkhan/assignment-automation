@@ -333,8 +333,13 @@
                 <div class="card-header">
                     <div class="card-title">Title Page</div>
                 </div>
-                <div class="card-body">
+                <!-- <div class="card-body">
                     <h1>Hi this is Title page card body</h1>
+                </div> -->
+
+                <div class="form-group">
+                    <label for="titlePageNumber" class="form-label">Number Of Assignment</label>
+                    <input type="number" id="titlePageNumber" placeholder="Enter number of Assignment" class="form-input">
                 </div>
             </div>
         </div>
@@ -510,6 +515,9 @@
             initializeApp();
             onLoadDom();
         });
+
+
+
 
         function initializeApp() {
             setupEventListeners();
@@ -1100,7 +1108,7 @@
                 body.classList.add('light-theme');
             }
 
-            showToast(`Switched to ${theme} mode.`, "success");
+            // showToast(`Switched to ${theme} mode.`, "success");
         }
 
         // Toggle based on switch state
