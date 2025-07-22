@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-:root {
+/* :root {
   --primary-blue: #2563eb;
   --secondary-blue: #3b82f6;
   --light-blue: #dbeafe;
@@ -20,7 +20,7 @@
   --border-color: #e2e8f0;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
+} */
 
 body {
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -32,15 +32,82 @@ body {
 
 /* Default Light Theme */
 body.light-theme {
-    background: linear-gradient(135deg,var(--extra-light-blue) 0%,var(--white) 100%) !important;
+    background: linear-gradient(135deg,var(--extra-light-blue) 0%,var(--white) 100%);
     color: var(--dark-gray) !important;
+    --primary-blue: #2563eb;
+    --secondary-blue: #3b82f6;
+    --light-blue: #dbeafe;
+    --extra-light-blue: #eff6ff;
+    --dark-blue: #1e40af;
+    --white: #ffffff;
+    --light-gray: #f8fafc;
+    --gray: #64748b;
+    --dark-gray: #334155;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --border-color: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 /* Dark Theme (reserved for later) */
 body.dark-theme {
-  background-color: #1e1e1e !important;
+  background-color: #03070D;
   color: #f0f0f0 !important;
+  --white: #13171E;
+  --light-blue: #03070D;
 }
+/* Switch Container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 17px;
+}
+
+/* Hide Default Checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider (Track) */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+/* Circle (Handle) */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 17px;
+  left: 2px;
+  bottom: 0px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+/* When Checked (Dark Mode) */
+input:checked + .slider {
+  background-color: grey;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
 
 /* Navigation */
 .navbar {
@@ -78,7 +145,7 @@ body.dark-theme {
 .nav-menu {
   display: flex;
   list-style: none;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .nav-item {
