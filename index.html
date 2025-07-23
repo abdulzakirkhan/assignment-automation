@@ -173,7 +173,7 @@
                                 <div class="file-upload-hint">Lecture notes, readings, handouts</div>
                             </div>
                             <input type="file" id="helpingMaterial" name="helping_material" class="file-input" 
-                                accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.zip,.rar,.tar,.tar.gz" multiple>
+                                accept=".zip" multiple>
                             <div id="helpingMaterialSelected" class="file-selected" style="display:none;">
                                 <!-- <i class="fas fa-check-circle"></i> -->
                                 <div id="helpingMaterialList" class="file-list"></div>
@@ -501,7 +501,6 @@
 
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
-
     <script>
         // Global Configuration
         let API_BASE_URL = 'http://localhost:8000';
@@ -533,10 +532,8 @@
         }
 
         // Load saved theme on page load , updated function
-    
         function onLoadDom () {
             const savedTheme = localStorage.getItem('theme') || 'light';
-
             // Apply the saved theme
             toggleTheme(savedTheme);
 
@@ -568,7 +565,7 @@
             });
 
             document.getElementById('helpingMaterial').addEventListener('change', function(e) {
-                handleFileSelect(e, 'helpingMaterialSelected', '', helpingMaterialFiles);
+                handleFileSelect(e, 'helpingMaterialSelected',"helpingMaterialList", helpingMaterialFiles);
             });
 
             // Form submission
@@ -695,6 +692,7 @@
 
             showToast(`${newFiles.length} ${newFiles.length > 1 ? "Files" : "File"} Selected`, 'success');
         }
+
         // old function
         // function handleFileSelect(event, selectedId, nameId) {
         //     const file = event.target.files[0];
@@ -1108,7 +1106,6 @@
                 body.classList.add('light-theme');
             }
 
-            // showToast(`Switched to ${theme} mode.`, "success");
         }
 
         // Toggle based on switch state
