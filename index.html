@@ -513,6 +513,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeApp();
             onLoadDom();
+
+           const pageId= localStorage.getItem("page")
+            showPage(pageId);
         });
 
 
@@ -549,6 +552,7 @@
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.addEventListener('click', function() {
                     const pageId = this.getAttribute('data-page');
+                    localStorage.setItem("page",pageId)
                     showPage(pageId);
                 });
             });
@@ -639,6 +643,7 @@
                     fileArray.push(file);
                 }
             });
+
 
             const fileListContainer = document.getElementById(listContainerId);
             const parentContainer = document.getElementById(selectedId);
