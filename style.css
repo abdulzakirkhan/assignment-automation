@@ -306,12 +306,22 @@ input:checked + .slider:before {
 }
 
 .textarea {
-  min-height: 100px;
-  resize: vertical;
+  /* min-height: 50px; */
+  resize: none;
   font-family: inherit;
   color: var(--white-text);
 }
+/* Hide number input arrows (Chrome, Safari, Edge) */
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
+/* Hide number input arrows (Firefox) */
+.no-spinner[type=number] {
+    -moz-appearance: textfield;
+}
 /* File Upload */
 .file-upload-area {
   border: 3px dashed var(--primary-blue);
